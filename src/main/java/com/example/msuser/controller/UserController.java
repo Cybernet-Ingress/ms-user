@@ -21,16 +21,16 @@ public class UserController {
         userService.createUser(request);
     }
 
+    @GetMapping("sign-in")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void authUser(@RequestBody UserResponse response) {
+        userService.authUser(response);
+    }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserResponse getUser(@PathVariable Long id) throws NotFoundException {
         return userService.getUser(id);
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable Long id) throws NotFoundException {
-        userService.deleteUser(id);
     }
 
     @PutMapping("/{id}")

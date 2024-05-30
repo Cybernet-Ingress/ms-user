@@ -1,2 +1,10 @@
 server:
   port: 8585
+
+spring:
+  liquibase:
+    change-log: liquibase
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ms-user
+    password: mysecretpassword
+    username: postgres

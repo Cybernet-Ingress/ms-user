@@ -24,6 +24,7 @@ public class UserEntity {
     private String surname;
     private String mail;
     private String userType;
+    private String photo;
 
     @Enumerated(STRING)
     private UserStatus status;
