@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import static com.example.msuser.mapper.UserMapper.USER_MAPPER;
-import static com.example.msuser.model.enums.UserStatus.DELETED;
 import static com.example.msuser.model.enums.UserStatus.UPDATED;
 
 @Slf4j
