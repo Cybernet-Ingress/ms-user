@@ -30,6 +30,4 @@ public class UserEntity {
 
     private LocalDate createDate;
     private LocalDate updateDate;
-
-    private String testttttttttttttttttttttttttttt;
 }
