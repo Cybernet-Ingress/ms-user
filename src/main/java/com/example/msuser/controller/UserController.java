@@ -21,7 +21,7 @@ public class UserController {
         userService.createUser(request);
     }
 
-    @GetMapping("sign-in")
+    @GetMapping("/sign-in")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void authUser(@RequestBody UserResponse response) {
         userService.authUser(response);
