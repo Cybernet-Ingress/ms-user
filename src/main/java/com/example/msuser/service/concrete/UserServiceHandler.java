@@ -29,17 +29,17 @@ public class UserServiceHandler implements UserService {
     }
 
     @Override
+    public void authUser(UserResponse response) {
+        log.info("ActionLog.authUser.start response: {}", response);
+        userRepository.auth(response);
+        log.info("ActionLog.authUser.success response: {}", response);
+    }
+
+    @Override
     public UserResponse getUser(Long id) throws NotFoundException {
         log.info("ActionLog.getUser.start request: {}", id);
         var user = fetchIfExist(id);
         return USER_MAPPER.buildUserResponse(user);
-    }
-
-    @Override
-    public void deleteUser(Long id) throws NotFoundException {
-        var user = fetchIfExist(id);
-        user.setStatus(DELETED);
-        userRepository.save(user);
     }
 
     @Override
@@ -48,6 +48,7 @@ public class UserServiceHandler implements UserService {
         user.setName(user.getName());
         user.setSurname(user.getSurname());
         user.setMail(user.getMail());
+        user.setPhoto(user.getPhoto());
         user.setStatus(UPDATED);
         userRepository.save(user);
     }
