@@ -10,4 +10,6 @@ public interface UserService {
     void createUser(CreateUserRequest request);
     UserResponse getUser(Long id) throws NotFoundException;
     void deleteUser(Long id) throws NotFoundException;
+
+    void updateUser(Long id) throws NotFoundException;
 }

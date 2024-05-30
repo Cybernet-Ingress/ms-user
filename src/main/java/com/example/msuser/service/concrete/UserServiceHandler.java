@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import static com.example.msuser.mapper.UserMapper.USER_MAPPER;
+import static com.example.msuser.model.enums.UserStatus.DELETED;
+import static com.example.msuser.model.enums.UserStatus.UPDATED;
 
 @Slf4j
 @Service
@@ -35,7 +37,19 @@ public class UserServiceHandler implements UserService {
 
     @Override
     public void deleteUser(Long id) throws NotFoundException {
+        var user = fetchIfExist(id);
+        user.setStatus(DELETED);
+        userRepository.save(user);
+    }
 
+    @Override
+    public void updateUser(Long id) throws NotFoundException {
+        var user = fetchIfExist(id);
+        user.setName(user.getName());
+        user.setSurname(user.getSurname());
+        user.setMail(user.getMail());
+        user.setStatus(UPDATED);
+        userRepository.save(user);
     }
 
     private UserEntity fetchIfExist(Long id) throws NotFoundException {

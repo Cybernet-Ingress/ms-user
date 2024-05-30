@@ -32,4 +32,10 @@ public class UserController {
     public void deleteUser(@PathVariable Long id) throws NotFoundException {
         userService.deleteUser(id);
     }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateUser(@PathVariable Long id) throws NotFoundException {
+        userService.updateUser(id);
+    }
 }
