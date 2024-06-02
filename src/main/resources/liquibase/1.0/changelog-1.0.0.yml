@@ -29,13 +29,18 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: photo
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
                   name: user_type
-                  type: varchar(100)
+                  type: varchar(10)
                   constraints:
                     nullable: false
               - column:
                   name: status
-                  type: varchar(100)
+                  type: varchar(10)
                   constraints:
                     nullable: false
               - column:
