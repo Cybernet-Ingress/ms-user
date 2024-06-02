@@ -14,7 +14,6 @@ import java.util.Base64;
 
 import static com.example.msuser.mapper.UserMapper.USER_MAPPER;
 import static com.example.msuser.model.enums.UserStatus.UPDATED;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Slf4j
 @Service
@@ -38,25 +37,27 @@ public class UserServiceHandler implements UserService {
     }
 
     @Override
-    public UserResponse getUser(Long id) throws NotFoundException {
+    public UserResponse getUser(Long id) {
         log.info("ActionLog.getUser.start request: {}", id);
-        var user = fetchIfExist(id);
+        var user = fetchIfExistUser(id);
         return USER_MAPPER.buildUserResponse(user);
     }
 
     @Override
-    public void updateUser(Long id) throws NotFoundException {
-        var user = fetchIfExist(id);
-        user.setName(user.getName());
-        user.setSurname(user.getSurname());
-        user.setMail(user.getMail());
-        user.setPhoto(user.getPhoto());
-        Base64.getDecoder().decode(user.getPhoto().getBytes(UTF_8));
-        user.setStatus(UPDATED);
+    public void updateUser(Long id) {
+        var user = fetchIfExistUser(id);
+        UserEntity.builder()
+            .mail(user.getMail())
+            .name(user.getName())
+            .surname(user.getSurname())
+            .photo(user.getPhoto())
+            .status(UPDATED)
+            .build();
+        Base64.getDecoder().decode(user.getPhoto());
         userRepository.save(user);
     }
 
-    private UserEntity fetchIfExist(Long id) throws NotFoundException {
+    private UserEntity fetchIfExistUser(Long id)  {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found!"));
     }
