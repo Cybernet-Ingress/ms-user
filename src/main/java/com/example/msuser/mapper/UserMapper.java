@@ -13,6 +13,7 @@ public enum UserMapper {
                 .name(userRequest.getName())
                 .surname(userRequest.getSurname())
                 .mail(userRequest.getMail())
+                .photo(userRequest.getPhoto())
                 .build();
     }
 
@@ -24,5 +25,4 @@ public enum UserMapper {
                 .name(userEntity.getName())
                 .build();
     }
-
 }
