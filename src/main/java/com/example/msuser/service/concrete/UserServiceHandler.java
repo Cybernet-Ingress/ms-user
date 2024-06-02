@@ -10,8 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
+
 import static com.example.msuser.mapper.UserMapper.USER_MAPPER;
 import static com.example.msuser.model.enums.UserStatus.UPDATED;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Slf4j
 @Service
@@ -48,6 +51,7 @@ public class UserServiceHandler implements UserService {
         user.setSurname(user.getSurname());
         user.setMail(user.getMail());
         user.setPhoto(user.getPhoto());
+        Base64.getDecoder().decode(user.getPhoto().getBytes(UTF_8));
         user.setStatus(UPDATED);
         userRepository.save(user);
     }
