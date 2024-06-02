@@ -47,12 +47,12 @@ public class UserServiceHandler implements UserService {
     public void updateUser(Long id) {
         var user = fetchIfExistUser(id);
         UserEntity.builder()
-            .mail(user.getMail())
-            .name(user.getName())
-            .surname(user.getSurname())
-            .photo(user.getPhoto())
-            .status(UPDATED)
-            .build();
+                  .mail(user.getMail())
+                  .name(user.getName())
+                  .surname(user.getSurname())
+                  .photo(user.getPhoto())
+                  .status(UPDATED)
+                  .build();
         Base64.getDecoder().decode(user.getPhoto());
         userRepository.save(user);
     }
