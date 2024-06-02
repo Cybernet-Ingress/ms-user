@@ -10,6 +10,6 @@ import org.springframework.stereotype.Service;
 public interface UserService {
     void createUser(CreateUserRequest request);
     void authUser(UserResponse response);
-    UserResponse getUser(Long id) throws NotFoundException;
-    void updateUser(Long id) throws NotFoundException;
+    UserResponse getUser(Long id);
+    void updateUser(Long id);
 }

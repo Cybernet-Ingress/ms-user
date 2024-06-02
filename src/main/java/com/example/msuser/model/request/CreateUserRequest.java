@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Arrays;
 import java.util.Base64;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Setter
 @Getter
@@ -18,5 +15,5 @@ public class CreateUserRequest {
     private String name;
     private String surname;
     private String mail;
-    private String photo = Arrays.toString(Base64.getEncoder().encode(getPhoto().getBytes(UTF_8)));
+    private String photo = Base64.getEncoder().encodeToString(getPhoto().getBytes());
 }

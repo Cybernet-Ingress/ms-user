@@ -1,6 +1,5 @@
 package com.example.msuser.controller;
 
-import com.example.msuser.exception.NotFoundException;
 import com.example.msuser.model.request.CreateUserRequest;
 import com.example.msuser.model.response.UserResponse;
 import com.example.msuser.service.abstraction.UserService;
@@ -15,7 +14,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@RequestBody CreateUserRequest request) {
         userService.createUser(request);
@@ -29,13 +28,13 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserResponse getUser(@PathVariable Long id) throws NotFoundException {
+    public UserResponse getUser(@PathVariable Long id) {
         return userService.getUser(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateUser(@PathVariable Long id) throws NotFoundException {
+    public void updateUser(@PathVariable Long id) {
         userService.updateUser(id);
     }
 }
