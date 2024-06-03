@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class AuthRequest {
     private String mail;
     private String password;
+
 }
