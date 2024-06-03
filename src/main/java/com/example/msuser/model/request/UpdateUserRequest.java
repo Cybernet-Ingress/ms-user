@@ -5,16 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Base64;
-
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserRequest {
+public class UpdateUserRequest {
     private String name;
     private String surname;
-    private String password;
     private String mail;
-    private String photo = Base64.getEncoder().encodeToString(getPhoto().getBytes());
+    private String password;
+    private String photo;
 }

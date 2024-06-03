@@ -1,6 +1,8 @@
 package com.example.msuser.controller;
 
+import com.example.msuser.model.request.AuthRequest;
 import com.example.msuser.model.request.CreateUserRequest;
+import com.example.msuser.model.request.UpdateUserRequest;
 import com.example.msuser.model.response.UserResponse;
 import com.example.msuser.service.abstraction.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +24,8 @@ public class UserController {
 
     @GetMapping("/sign-in")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void authUser(@RequestBody UserResponse response) {
-        userService.authUser(response);
+    public void authUser(@RequestBody AuthRequest authRequest) {
+        userService.authUser(authRequest);
     }
 
     @GetMapping("/{id}")
@@ -34,7 +36,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateUser(@PathVariable Long id) {
-        userService.updateUser(id);
+    public void updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest userRequest) {
+        userService.updateUser(id, userRequest);
     }
 }

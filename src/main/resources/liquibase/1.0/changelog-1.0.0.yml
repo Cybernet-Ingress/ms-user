@@ -24,13 +24,18 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: password
+                  type: varchar(500)
+                  constraints:
+                    nullable: false
+              - column:
                   name: mail
                   type: varchar(100)
                   constraints:
                     nullable: false
               - column:
                   name: photo
-                  type: text
+                  type: varchar(500)
                   constraints:
                     nullable: true
               - column:

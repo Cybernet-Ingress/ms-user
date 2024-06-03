@@ -3,11 +3,16 @@ package com.example.msuser.service.concrete;
 import com.example.msuser.dao.entity.UserEntity;
 import com.example.msuser.dao.repository.UserRepository;
 import com.example.msuser.exception.NotFoundException;
+import com.example.msuser.exception.WrongCredentialsException;
+import com.example.msuser.model.request.AuthRequest;
 import com.example.msuser.model.request.CreateUserRequest;
+import com.example.msuser.model.request.UpdateUserRequest;
 import com.example.msuser.model.response.UserResponse;
 import com.example.msuser.service.abstraction.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
@@ -21,19 +26,28 @@ import static com.example.msuser.model.enums.UserStatus.UPDATED;
 public class UserServiceHandler implements UserService {
 
     private final UserRepository userRepository;
+    private final SecurityService securityService;
 
     @Override
     public void createUser(CreateUserRequest request) {
         log.info("ActionLog.createUser.start request: {}", request);
+        request.setPassword(securityService.hashPassword(request.getPassword()));
         userRepository.save(USER_MAPPER.buildUserEntity(request));
         log.info("ActionLog.createUser.success request: {}", request);
     }
 
     @Override
-    public void authUser(UserResponse response) {
-        log.info("ActionLog.authUser.start response: {}", response);
-        userRepository.auth(response);
-        log.info("ActionLog.authUser.success response: {}", response);
+    public void authUser(AuthRequest authRequest)  {
+        log.info("ActionLog.authUser.start authRequest: {}", authRequest);
+        userRepository.findByMail(authRequest.getMail())
+                .ifPresentOrElse(userEntity -> {
+                    if (!securityService.verifyPassword(authRequest.getPassword(), userEntity.getPassword())) {
+                        throw new WrongCredentialsException("User not match with given credentials", HttpStatus.UNAUTHORIZED.toString());
+                    }
+                }, () -> {
+                    throw new NotFoundException("User not found!", HttpStatus.NOT_FOUND.toString());
+                });
+        log.info("ActionLog.authUser.success authRequest: {}", authRequest);
     }
 
     @Override
@@ -44,21 +58,15 @@ public class UserServiceHandler implements UserService {
     }
 
     @Override
-    public void updateUser(Long id) {
+    public void updateUser(Long id, UpdateUserRequest userRequest) {
         var user = fetchIfExistUser(id);
-        UserEntity.builder()
-                  .mail(user.getMail())
-                  .name(user.getName())
-                  .surname(user.getSurname())
-                  .photo(user.getPhoto())
-                  .status(UPDATED)
-                  .build();
+        user.setPassword(securityService.hashPassword(userRequest.getPassword()));
         Base64.getDecoder().decode(user.getPhoto());
-        userRepository.save(user);
+        userRepository.save(USER_MAPPER.buildUpdateUserEntity(userRequest, id));
     }
 
-    private UserEntity fetchIfExistUser(Long id)  {
+    private UserEntity fetchIfExistUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User not found!"));
+                .orElseThrow(() -> new NotFoundException("User not found!", HttpStatus.NOT_FOUND.toString()));
     }
 }
