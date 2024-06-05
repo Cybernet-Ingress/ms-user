@@ -11,7 +11,6 @@ import com.example.msuser.model.response.UserResponse;
 import com.example.msuser.service.abstraction.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
@@ -40,10 +39,10 @@ public class UserServiceHandler implements UserService {
         userRepository.findByMail(authRequest.getMail())
                 .ifPresentOrElse(userEntity -> {
                     if (!securityService.verifyPassword(authRequest.getPassword(), userEntity.getPassword())) {
-                        throw new WrongCredentialsException("User not match with given credentials", HttpStatus.UNAUTHORIZED.toString());
+                        throw new WrongCredentialsException("User not match with given credentials");
                     }
                 }, () -> {
-                    throw new NotFoundException("User not found!", HttpStatus.NOT_FOUND.toString());
+                    throw new NotFoundException("User not found!");
                 });
         log.info("ActionLog.authUser.success authRequest: {}", authRequest);
     }
@@ -65,6 +64,6 @@ public class UserServiceHandler implements UserService {
 
     private UserEntity fetchIfExistUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User not found!", HttpStatus.NOT_FOUND.toString()));
+                .orElseThrow(() -> new NotFoundException("User not found!"));
     }
 }

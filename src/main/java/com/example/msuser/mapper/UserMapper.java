@@ -5,8 +5,6 @@ import com.example.msuser.model.request.CreateUserRequest;
 import com.example.msuser.model.request.UpdateUserRequest;
 import com.example.msuser.model.response.UserResponse;
 
-import static com.example.msuser.model.enums.UserStatus.UPDATED;
-
 public enum UserMapper {
     USER_MAPPER;
 
@@ -39,7 +37,6 @@ public enum UserMapper {
                 .mail(updateUserRequest.getMail())
                 .photo(updateUserRequest.getPhoto())
                 .password(updateUserRequest.getPassword())
-                .status(UPDATED)
                 .build();
     }
 }
