@@ -11,14 +11,12 @@ import com.example.msuser.model.response.UserResponse;
 import com.example.msuser.service.abstraction.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 
 import static com.example.msuser.mapper.UserMapper.USER_MAPPER;
-import static com.example.msuser.model.enums.UserStatus.UPDATED;
 
 @Slf4j
 @Service
