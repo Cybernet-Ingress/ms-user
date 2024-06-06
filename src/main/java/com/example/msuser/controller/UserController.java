@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequestMapping("v1/users")
 @RequiredArgsConstructor
@@ -24,25 +28,25 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/sign-up")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     public void createUser(@RequestBody CreateUserRequest request) {
         userService.createUser(request);
     }
 
-    @GetMapping("/sign-in")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping("/sign-in")
+    @ResponseStatus(ACCEPTED)
     public void authUser(@RequestBody AuthRequest authRequest) {
         userService.authUser(authRequest);
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     public UserResponse getUser(@PathVariable Long id) {
         return userService.getUser(id);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     public void updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest userRequest) {
         userService.updateUser(id, userRequest);
     }

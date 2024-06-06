@@ -1,12 +1,11 @@
 package com.example.msuser.dao.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import com.example.msuser.model.enums.UserStatus;
+import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+
+import static jakarta.persistence.EnumType.STRING;
 
 @Getter
 @Setter
@@ -25,10 +24,12 @@ public class UserEntity {
     private String surname;
     private String password;
     private String mail;
-    private Enum type;
+    private String userType;
     private String photo;
 
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
-    private LocalDate birthDate;
+    @Enumerated(STRING)
+    private UserStatus status;
+
+    private LocalDate createDate;
+    private LocalDate updateDate;
 }
