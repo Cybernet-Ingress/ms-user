@@ -26,11 +26,13 @@ public class ErrorHandler {
     @ResponseStatus(NOT_FOUND)
     public ExceptionResponse handle(NotFoundException ex) {
         log.error("NotFoundException: ", ex);
+        return new ExceptionResponse();
     }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public ExceptionResponse handle(WrongCredentialsException ex) {
         log.error("NotFoundException: ", ex);
+        return new ExceptionResponse();
     }
 }
