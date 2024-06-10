@@ -17,9 +17,9 @@ import java.util.Base64;
 
 import static com.example.msuser.mapper.UserMapper.USER_MAPPER;
 
-@LogAnnotation
 @Service
 @RequiredArgsConstructor
+@LogAnnotation
 public class UserServiceHandler implements UserService {
 
     private final UserRepository userRepository;

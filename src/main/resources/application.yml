@@ -6,7 +6,7 @@ spring:
     change-log: liquibase/1.0
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/ms-user
+    url: jdbc:postgresql://localhost:5432/ms_user
     password: mysecretpassword
     username: postgres
     driver-class-name: org.postgresql.Driver
