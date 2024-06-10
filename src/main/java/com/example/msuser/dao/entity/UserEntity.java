@@ -1,5 +1,6 @@
 package com.example.msuser.dao.entity;
 
+import com.example.msuser.model.enums.UserType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -37,9 +38,7 @@ public class UserEntity {
     private String mail;
     private String type;
     private String photo;
-
-    @Enumerated(STRING)
-    private Enum status;
+    private UserType status;
 
     @CreationTimestamp
     private LocalDate createDate;
