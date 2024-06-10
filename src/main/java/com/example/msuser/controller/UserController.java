@@ -4,12 +4,10 @@ import com.example.msuser.model.request.UpdateUserRequest;
 import com.example.msuser.model.response.UserResponse;
 import com.example.msuser.service.abstraction.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @RequestMapping("v1/users")
@@ -24,6 +22,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
     public void updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest userRequest) {
         userService.updateUser(id, userRequest);
     }
