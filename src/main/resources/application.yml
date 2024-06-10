@@ -4,5 +4,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/users
     username: postgres
     password: postgres
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
   liquibase:
     change-log: classpath:liquibase/changelog-master.yml
