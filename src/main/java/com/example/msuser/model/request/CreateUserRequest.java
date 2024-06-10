@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Base64;
+import org.antlr.v4.runtime.misc.NotNull;
 
 @Setter
 @Getter
@@ -19,5 +18,7 @@ public class CreateUserRequest {
     private String password;
     private String mail;
     private UserType type;
-    private String photo = Base64.getEncoder().encodeToString(getPhoto().getBytes());
+
+    @NotNull
+    private String photo;
 }
