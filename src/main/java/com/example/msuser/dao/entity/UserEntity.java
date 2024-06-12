@@ -34,9 +34,8 @@ public class UserEntity {
     private String surname;
     private String password;
     private String mail;
-    private String type;
+    private UserType type;
     private String photo;
-    private UserType status;
 
     @CreationTimestamp
     private LocalDate createDate;

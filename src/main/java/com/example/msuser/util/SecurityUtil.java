@@ -1,12 +1,10 @@
 package com.example.msuser.util;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
-@AllArgsConstructor
 @Component
 public class SecurityUtil {
     private BCryptPasswordEncoder passwordEncoder;
