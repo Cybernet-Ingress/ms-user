@@ -21,13 +21,13 @@ public class InternalController {
 
     private final UserService userService;
 
-    @PostMapping("sign-up")
+    @PostMapping("/sign-up")
     @ResponseStatus(CREATED)
     public void signUp(@RequestBody CreateUserRequest request) {
         userService.signUp(request);
     }
 
-    @PostMapping("sign-in")
+    @PostMapping("/sign-in")
     @ResponseStatus(ACCEPTED)
     public void signIn(@RequestBody AuthRequest authRequest) {
         userService.signIn(authRequest);

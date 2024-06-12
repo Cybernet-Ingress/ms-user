@@ -1,6 +1,7 @@
 package com.example.msuser.exception;
 
-import com.example.msuser.model.response.ExceptionResponse;
+import
+        com.example.msuser.model.response.ExceptionResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

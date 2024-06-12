@@ -10,6 +10,7 @@ import com.example.msuser.model.request.CreateUserRequest;
 import com.example.msuser.model.request.UpdateUserRequest;
 import com.example.msuser.model.response.UserResponse;
 import com.example.msuser.service.abstraction.UserService;
+import com.example.msuser.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +24,11 @@ import static com.example.msuser.mapper.UserMapper.USER_MAPPER;
 public class UserServiceHandler implements UserService {
 
     private final UserRepository userRepository;
-    private final SecurityService securityService;
+    private final SecurityUtil securityUtil;
 
     @Override
     public void signUp(CreateUserRequest request) {
-        request.setPassword(securityService.hashPassword(request.getPassword()));
+        request.setPassword(securityUtil.hashPassword(request.getPassword()));
         userRepository.save(USER_MAPPER.buildUserEntity(request));
     }
 
@@ -35,7 +36,7 @@ public class UserServiceHandler implements UserService {
     public void signIn(AuthRequest authRequest)  {
         userRepository.findByMail(authRequest.getMail())
                 .ifPresentOrElse(userEntity -> {
-                    if (!securityService.verifyPassword(authRequest.getPassword(), userEntity.getPassword())) {
+                    if (!securityUtil.verifyPassword(authRequest.getPassword(), userEntity.getPassword())) {
                         throw new WrongCredentialsException("User not match with given credentials");
                     }
                 }, () -> {
@@ -52,7 +53,7 @@ public class UserServiceHandler implements UserService {
     @Override
     public void updateUser(Long id, UpdateUserRequest userRequest) {
         var user = fetchIfExistUser(id);
-        user.setPassword(securityService.hashPassword(userRequest.getPassword()));
+        user.setPassword(securityUtil.hashPassword(userRequest.getPassword()));
         Base64.getDecoder().decode(user.getPhoto());
         userRepository.save(USER_MAPPER.buildUpdateUserEntity(userRequest, id));
     }
