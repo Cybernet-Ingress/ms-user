@@ -5,20 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
+
+import java.time.LocalDate;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateUserRequest {
-    private Long id;
     private String name;
     private String surname;
     private String password;
     private String mail;
+    private LocalDate birthDate;
     private UserType type;
-
-    @NotNull
     private String photo;
 }

@@ -2,9 +2,11 @@ package com.example.msuser.dao.entity;
 
 import com.example.msuser.model.enums.UserType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,6 +18,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Getter
@@ -34,14 +37,20 @@ public class UserEntity {
     private String surname;
     private String password;
     private String mail;
+
+    @Enumerated(STRING)
     private UserType type;
+
     private String photo;
 
     @CreationTimestamp
+    @Column(name = "created_at")
     private LocalDate createDate;
 
     @UpdateTimestamp
+    @Column(name = "updated_at")
     private LocalDate updateDate;
 
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 }

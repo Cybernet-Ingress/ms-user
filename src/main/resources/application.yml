@@ -6,4 +6,4 @@ spring:
     password: pass123
   liquibase:
     change-log: classpath:liquibase/changelog-master.yml
-    enabled: true
+    enabled: false

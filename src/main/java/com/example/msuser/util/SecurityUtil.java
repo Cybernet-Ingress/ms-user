@@ -1,5 +1,7 @@
 package com.example.msuser.util;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -7,7 +9,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class SecurityUtil {
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+
 
     public String hashPassword(String password) {
         return passwordEncoder.encode(password);

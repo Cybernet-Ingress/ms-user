@@ -22,9 +22,11 @@ public enum UserMapper {
     public UserResponse buildUserResponse(UserEntity userEntity) {
         return UserResponse
                 .builder()
-                .id(userEntity.getId())
                 .surname(userEntity.getSurname())
                 .name(userEntity.getName())
+                .mail(userEntity.getMail())
+                .userType(userEntity.getType())
+                .birthDate(userEntity.getBirthDate())
                 .build();
     }
 
