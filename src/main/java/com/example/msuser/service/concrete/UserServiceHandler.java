@@ -54,7 +54,7 @@ public class UserServiceHandler implements UserService {
     public void updateUser(Long id, UpdateUserRequest userRequest) {
         var user = fetchIfExistUser(id);
         user.setPassword(securityUtil.hashPassword(userRequest.getPassword()));
-        Base64.getDecoder().decode(user.getPhoto());
+        Base64.getDecoder().decode(user.getPhoto().getBytes());
         userRepository.save(USER_MAPPER.buildUpdateUserEntity(userRequest, id));
     }
 
