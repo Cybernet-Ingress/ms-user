@@ -1,6 +1,7 @@
 package com.example.msuser.mapper;
 
 import com.example.msuser.dao.entity.UserEntity;
+import com.example.msuser.model.enums.UserType;
 import com.example.msuser.model.request.CreateUserRequest;
 import com.example.msuser.model.request.UpdateUserRequest;
 import com.example.msuser.model.response.UserResponse;
@@ -15,6 +16,7 @@ public enum UserMapper {
                 .surname(userRequest.getSurname())
                 .mail(userRequest.getMail())
                 .password(userRequest.getPassword())
+                .type(userRequest.getType())
                 .photo(userRequest.getPhoto())
                 .build();
     }

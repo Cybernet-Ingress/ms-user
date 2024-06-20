@@ -41,7 +41,6 @@ public class UserEntity {
     private String mail;
 
     @Enumerated(STRING)
-    @Column(name = "type")
     private UserType type;
 
     private String photo;
