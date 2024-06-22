@@ -4,7 +4,7 @@ import com.example.msuser.dao.entity.UserEntity
 import com.example.msuser.dao.repository.UserRepository
 import com.example.msuser.exception.NotFoundException
 import com.example.msuser.exception.WrongCredentialsException
-import com.example.msuser.model.request.AuthRequest
+import com.example.msuser.model.request.SignInRequest
 import com.example.msuser.model.request.CreateUserRequest
 import com.example.msuser.model.request.UpdateUserRequest
 import com.example.msuser.service.abstraction.UserService
@@ -37,13 +37,12 @@ class UserServiceHandlerTest extends Specification {
         userService.signUp(request)
 
         then:
-        1 * request.setPassword(request)
         1 * userRepository.save(entity)
     }
 
-    def "TestSignIn"() {
+    def "TestSignIn error"() {
         given:
-        def request = random.nextObject(AuthRequest)
+        def request = random.nextObject(SignInRequest)
         def entity = random.nextObject(UserEntity)
 
         when:
@@ -54,6 +53,20 @@ class UserServiceHandlerTest extends Specification {
         1 * userRepository.findByMail(request) >> Optional.of(request)
         WrongCredentialsException ex = thrown()
         ex.message == "User not match with given credentials"
+    }
+
+    def "TestSignIn success"() {
+        given:
+        def request = random.nextObject(SignInRequest)
+        def entity = random.nextObject(UserEntity)
+
+        when:
+        def response = userService.signIn(request)
+
+        then:
+        1 * securityUtil.verifyPassword(request.mail) >> Optional.of(entity)
+        1 * userRepository.findByMail(request)
+        response == entity
     }
 
     def "TestGetUser success"() {
@@ -83,12 +96,12 @@ class UserServiceHandlerTest extends Specification {
         ex.message == "User not found!"
     }
 
-    def "TestUpdateUser success"() {
+    def "TestUpdateUser error user can't update"() {
         given:
         def id = random.nextLong()
         def request = random.nextObject(UpdateUserRequest)
         def entity = random.nextObject(UserEntity)
-        def expected = USER_MAPPER.buildUpdateUserEntity(id, request)
+        def expected = USER_MAPPER.buildUserRequest(id, request)
 
         when:
         def response = userService.updateUser(id, request)
@@ -100,10 +113,20 @@ class UserServiceHandlerTest extends Specification {
         ex.message == "User not found!"
     }
 
-    def "TestUpdateUser error user can't update"() {
-//        give:
-//        when:
-//        then:
-    }
+    def "TestUpdateUser success"() {
+        given:
+        def id = random.nextLong()
+        def request = random.nextObject(UpdateUserRequest)
+        def entity = random.nextObject(UserEntity)
+        def savedEntity = (_)
+        def expected = USER_MAPPER.buildUpdateUserEntity(id, request)
 
+        when:
+        def response = userService.updateUser(id, request)
+
+        then:
+        1 * userRepository.findById(id) >> Optional.of(entity)
+        1 * userRepository.save(savedEntity)
+        expected == response
+    }
 }

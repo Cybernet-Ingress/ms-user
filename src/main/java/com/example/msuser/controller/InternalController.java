@@ -1,7 +1,7 @@
 package com.example.msuser.controller;
 
 
-import com.example.msuser.model.request.AuthRequest;
+import com.example.msuser.model.request.SignInRequest;
 import com.example.msuser.model.request.CreateUserRequest;
 import com.example.msuser.service.abstraction.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class InternalController {
 
     @PostMapping("/sign-in")
     @ResponseStatus(ACCEPTED)
-    public void signIn(@RequestBody AuthRequest authRequest) {
-        userService.signIn(authRequest);
+    public void signIn(@RequestBody SignInRequest signInRequest) {
+        userService.signIn(signInRequest);
     }
 }

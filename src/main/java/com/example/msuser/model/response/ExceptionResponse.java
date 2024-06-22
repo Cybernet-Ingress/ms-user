@@ -1,5 +1,6 @@
 package com.example.msuser.model.response;
 
+import com.example.msuser.exception.ExceptionConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ExceptionResponse {
+public class ExceptionResponse implements ExceptionConstants {
+    private String code;
     private String message;
 }

@@ -1,7 +1,6 @@
 package com.example.msuser.mapper;
 
 import com.example.msuser.dao.entity.UserEntity;
-import com.example.msuser.model.enums.UserType;
 import com.example.msuser.model.request.CreateUserRequest;
 import com.example.msuser.model.request.UpdateUserRequest;
 import com.example.msuser.model.response.UserResponse;
@@ -32,7 +31,7 @@ public enum UserMapper {
                 .build();
     }
 
-    public UserEntity buildUpdateUserEntity(UpdateUserRequest updateUserRequest, Long id) {
+    public UserEntity buildUserRequest(UpdateUserRequest updateUserRequest, Long id) {
         return UserEntity
                 .builder()
                 .id(id)
