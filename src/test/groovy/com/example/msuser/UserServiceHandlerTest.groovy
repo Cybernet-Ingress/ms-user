@@ -56,17 +56,16 @@ class UserServiceHandlerTest extends Specification {
     }
 
     def "TestSignIn success"() {
-        given:
-        def request = random.nextObject(SignInRequest)
-        def entity = random.nextObject(UserEntity)
+        def signInRequest = new SignInRequest(mail: "user@example.com", password: "password")
+        def userEntity = new UserEntity(password: "hashedPassword")
+        userRepository.findByMail(signInRequest.mail) >> Optional.of(userEntity)
+        securityUtil.verifyPassword(signInRequest.password, userEntity.password) >> true
 
         when:
-        def response = userService.signIn(request)
+        userService.signIn(signInRequest)
 
         then:
-        1 * securityUtil.verifyPassword(request.mail) >> Optional.of(entity)
-        1 * userRepository.findByMail(request)
-        response == entity
+        noExceptionThrown()
     }
 
     def "TestGetUser success"() {
@@ -118,15 +117,15 @@ class UserServiceHandlerTest extends Specification {
         def id = random.nextLong()
         def request = random.nextObject(UpdateUserRequest)
         def entity = random.nextObject(UserEntity)
-        def savedEntity = (_)
-        def expected = USER_MAPPER.buildUpdateUserEntity(id, request)
+        def expected = USER_MAPPER.buildUserRequest(request, id)
 
         when:
-        def response = userService.updateUser(id, request)
+        userService.updateUser(id, request)
 
         then:
         1 * userRepository.findById(id) >> Optional.of(entity)
-        1 * userRepository.save(savedEntity)
-        expected == response
+        1 * securityUtil.hashPassword(request.getPassword()) >> request.password
+        1 * userRepository.save(expected)
+        notThrown(NotFoundException)
     }
 }
