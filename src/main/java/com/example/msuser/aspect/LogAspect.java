@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class LogAspect {
-    @Around(value = "within(@com.example.msuser.annotation.LogAnnotation *)")
+    @Around(value = "within(@com.example.msuser.annotation.Log *)")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         String method = joinPoint.getSignature().getName();
         log.info("ActionLog.start {}", method);

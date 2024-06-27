@@ -46,13 +46,10 @@ public class UserEntity {
     private String photo;
 
     @CreationTimestamp
-    @Column(name = "created_at")
     private LocalDate createDate;
 
     @UpdateTimestamp
-    @Column(name = "updated_at")
     private LocalDate updateDate;
 
-    @Column(name = "birth_date")
     private LocalDate birthDate;
 }
