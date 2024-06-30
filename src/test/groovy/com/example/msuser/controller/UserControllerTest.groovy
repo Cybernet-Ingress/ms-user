@@ -35,10 +35,10 @@ class UserControllerTest extends Specification {
         def responseView = new UserResponse("John", "Doe", "mail@gmail.com", "photo.jpg",
                 UserType.BUYER, LocalDate.of(2024, 06, 30))
         def expectedResponse = '''{
-            "name": "name_5616cb966603",
-            "surname": "surname_b078c87ffa70",
-            "mail": "mail_91dc1a99afe3",
-            "photo": "photo_bb190dde5d78",
+            "name": "John",
+            "surname": "Doe",
+            "mail": "mail@gmail.com",
+            "photo": "photo.jpg",
             "userType": "BUYER",
             "birthDate": "2024-06-30"
         }'''
