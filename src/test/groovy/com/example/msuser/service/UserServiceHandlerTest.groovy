@@ -1,4 +1,4 @@
-package com.example.msuser
+package com.example.msuser.service
 
 import com.example.msuser.dao.entity.UserEntity
 import com.example.msuser.dao.repository.UserRepository
