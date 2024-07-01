@@ -1,11 +1,12 @@
 package com.example.msuser.model.request;
 
+import com.example.msuser.model.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Base64;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -16,5 +17,7 @@ public class CreateUserRequest {
     private String surname;
     private String password;
     private String mail;
-    private String photo = Base64.getEncoder().encodeToString(getPhoto().getBytes());
+    private LocalDate birthDate;
+    private UserType type;
+    private String photo;
 }

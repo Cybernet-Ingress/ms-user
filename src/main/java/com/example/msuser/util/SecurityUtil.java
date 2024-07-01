@@ -1,12 +1,13 @@
-package com.example.msuser.service.concrete;
+package com.example.msuser.util;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-public class SecurityService {
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+@RequiredArgsConstructor
+@Component
+public class SecurityUtil {
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public String hashPassword(String password) {
         return passwordEncoder.encode(password);
