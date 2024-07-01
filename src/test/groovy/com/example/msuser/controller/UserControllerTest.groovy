@@ -6,8 +6,6 @@ import com.example.msuser.service.abstraction.UserService
 import io.github.benas.randombeans.EnhancedRandomBuilder
 import io.github.benas.randombeans.api.EnhancedRandom
 import org.skyscreamer.jsonassert.JSONAssert
-import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import spock.lang.Specification
@@ -31,17 +29,17 @@ class UserControllerTest extends Specification {
     def "TestGetUser"() {
         given:
         def id = 1l
-        def url = "v1/users/$id"
+        def url = "v1/users/${id}"
         def responseView = new UserResponse("John", "Doe", "mail@gmail.com", "photo.jpg",
                 UserType.BUYER, LocalDate.of(2024, 06, 30))
-        def expectedResponse = '''{
+        def expectedResponse = """{
             "name": "John",
             "surname": "Doe",
             "mail": "mail@gmail.com",
             "photo": "photo.jpg",
             "userType": "BUYER",
             "birthDate": "2024-06-30"
-        }'''
+        }"""
 
         when:
         def result = mockMvc.perform(get(url))
