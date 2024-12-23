@@ -5,11 +5,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class NotFoundException extends RuntimeException {
+public class UnauthorizedException extends RuntimeException {
 
     private String code;
 
-    public NotFoundException(String message, String code) {
+    public UnauthorizedException(String message, String code) {
         super(message);
         this.code = code;
     }

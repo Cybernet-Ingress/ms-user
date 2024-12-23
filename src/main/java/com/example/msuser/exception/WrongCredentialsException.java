@@ -4,10 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class WrongCredentialsException extends RuntimeException {
-    private String code;
 
-    public WrongCredentialsException(String message, String code) {
+    public WrongCredentialsException(String message) {
         super(message);
-        this.code = code;
     }
 }

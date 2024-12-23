@@ -13,48 +13,59 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
+                  remarks: id of user
               - column:
                   name: name
                   type: varchar(100)
                   constraints:
                     nullable: false
+                  remarks: name of user
               - column:
                   name: surname
                   type: varchar(100)
                   constraints:
                     nullable: false
+                  remarks: surname of user
               - column:
                   name: password
-                  type: varchar(500)
+                  type: text
                   constraints:
                     nullable: false
+                  remarks: password of user
               - column:
                   name: mail
                   type: varchar(100)
                   constraints:
                     nullable: false
+                  remarks: mail of user
+              - column:
+                  name: type
+                  type: varchar(16)
+                  constraints:
+                    nullable: false
+                  remarks: type of user
               - column:
                   name: photo
-                  type: varchar(500)
+                  type: text
                   constraints:
-                    nullable: true
+                  remarks: photo of user
               - column:
-                  name: user_type
-                  type: varchar(10)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: status
-                  type: varchar(10)
+                  name: created_at
+                  type: timestamp
+                  defaultValue: now()
                   constraints:
                     nullable: false
+                  remarks: when created
               - column:
-                  name: created
+                  name: updated_at
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+                  remarks: when updated
+              - column:
+                  name: birth_date
                   type: timestamp
                   constraints:
                     nullable: false
-              - column:
-                  name: updated
-                  type: timestamp
-                  constraints:
-                    nullable: false
+                  remarks: birthday of user

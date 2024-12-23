@@ -1,58 +1,57 @@
 package com.example.msuser.service.concrete;
 
+import com.example.msuser.annotation.Log;
 import com.example.msuser.dao.entity.UserEntity;
 import com.example.msuser.dao.repository.UserRepository;
 import com.example.msuser.exception.NotFoundException;
+import com.example.msuser.exception.UnauthorizedException;
 import com.example.msuser.exception.WrongCredentialsException;
-import com.example.msuser.model.request.AuthRequest;
 import com.example.msuser.model.request.CreateUserRequest;
+import com.example.msuser.model.request.SignInRequest;
 import com.example.msuser.model.request.UpdateUserRequest;
 import com.example.msuser.model.response.UserResponse;
 import com.example.msuser.service.abstraction.UserService;
+import com.example.msuser.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.BadRequestException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 
+import static com.example.msuser.exception.ExceptionConstants.ID_NOT_FOUND_CODE;
+import static com.example.msuser.exception.ExceptionConstants.ID_NOT_FOUND_EXCEPTION;
+import static com.example.msuser.exception.ExceptionConstants.MAIL_NOT_FOUND_EXCEPTION;
+import static com.example.msuser.exception.ExceptionConstants.UNAUTHORIZED_CODE;
+import static com.example.msuser.exception.ExceptionConstants.UNAUTHORIZED_EXCEPTION;
 import static com.example.msuser.mapper.UserMapper.USER_MAPPER;
-import static com.example.msuser.model.enums.UserStatus.UPDATED;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
+@Log
 public class UserServiceHandler implements UserService {
 
     private final UserRepository userRepository;
-    private final SecurityService securityService;
+    private final SecurityUtil securityUtil;
 
     @Override
-    public void createUser(CreateUserRequest request) {
-        log.info("ActionLog.createUser.start request: {}", request);
-        request.setPassword(securityService.hashPassword(request.getPassword()));
+    public void signUp(CreateUserRequest request) {
+        request.setPassword(securityUtil.hashPassword(request.getPassword()));
         userRepository.save(USER_MAPPER.buildUserEntity(request));
-        log.info("ActionLog.createUser.success request: {}", request);
     }
 
     @Override
-    public void authUser(AuthRequest authRequest)  {
-        log.info("ActionLog.authUser.start authRequest: {}", authRequest);
-        userRepository.findByMail(authRequest.getMail())
+    public void signIn(SignInRequest signInRequest) {
+        userRepository.findByMail(signInRequest.getMail())
                 .ifPresentOrElse(userEntity -> {
-                    if (!securityService.verifyPassword(authRequest.getPassword(), userEntity.getPassword())) {
-                        throw new WrongCredentialsException("User not match with given credentials", HttpStatus.UNAUTHORIZED.toString());
+                    if (!securityUtil.verifyPassword(signInRequest.getPassword(), userEntity.getPassword())) {
+                        throw new UnauthorizedException(UNAUTHORIZED_CODE, String.format(UNAUTHORIZED_EXCEPTION, signInRequest.getMail()));
                     }
                 }, () -> {
-                    throw new NotFoundException("User not found!", HttpStatus.NOT_FOUND.toString());
+                    throw new WrongCredentialsException(MAIL_NOT_FOUND_EXCEPTION);
                 });
-        log.info("ActionLog.authUser.success authRequest: {}", authRequest);
     }
 
     @Override
     public UserResponse getUser(Long id) {
-        log.info("ActionLog.getUser.start request: {}", id);
         var user = fetchIfExistUser(id);
         return USER_MAPPER.buildUserResponse(user);
     }
@@ -60,13 +59,13 @@ public class UserServiceHandler implements UserService {
     @Override
     public void updateUser(Long id, UpdateUserRequest userRequest) {
         var user = fetchIfExistUser(id);
-        user.setPassword(securityService.hashPassword(userRequest.getPassword()));
-        Base64.getDecoder().decode(user.getPhoto());
-        userRepository.save(USER_MAPPER.buildUpdateUserEntity(userRequest, id));
+        user.setPassword(securityUtil.hashPassword(userRequest.getPassword()));
+        Base64.getDecoder().decode(user.getPhoto().getBytes());
+        userRepository.save(USER_MAPPER.buildUserRequest(userRequest, id));
     }
 
     private UserEntity fetchIfExistUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User not found!", HttpStatus.NOT_FOUND.toString()));
+                .orElseThrow(() -> new NotFoundException(ID_NOT_FOUND_CODE, String.format(ID_NOT_FOUND_EXCEPTION, id)));
     }
 }
