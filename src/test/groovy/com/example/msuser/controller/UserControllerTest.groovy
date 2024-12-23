@@ -6,6 +6,7 @@ import com.example.msuser.service.abstraction.UserService
 import io.github.benas.randombeans.EnhancedRandomBuilder
 import io.github.benas.randombeans.api.EnhancedRandom
 import org.skyscreamer.jsonassert.JSONAssert
+import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import spock.lang.Specification
@@ -13,6 +14,7 @@ import spock.lang.Specification
 import java.time.LocalDate
 
 import static org.springframework.http.HttpStatus.OK
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 
 class UserControllerTest extends Specification {
     EnhancedRandom random = EnhancedRandomBuilder.aNewEnhancedRandom()
@@ -29,7 +31,7 @@ class UserControllerTest extends Specification {
     def "TestGetUser"() {
         given:
         def id = 1l
-        def url = "v1/users/${id}"
+        def url = "/v1/users/${id}"
         def responseView = new UserResponse("John", "Doe", "mail@gmail.com", "photo.jpg",
                 UserType.BUYER, LocalDate.of(2024, 06, 30))
         def expectedResponse = """{
@@ -38,12 +40,14 @@ class UserControllerTest extends Specification {
             "mail": "mail@gmail.com",
             "photo": "photo.jpg",
             "userType": "BUYER",
-            "birthDate": "2024-06-30"
+            "birthDate": [2024,6,30]
         }"""
 
         when:
-        def result = mockMvc.perform(get(url))
-        .andReturn()
+        def result = mockMvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON)
+
+        ).andReturn()
 
         then:
         1 * userService.getUser(id) >> responseView
